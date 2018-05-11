@@ -1,0 +1,47 @@
+<!Doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Hello</title>
+</head>
+<body>
+  <div id="app">
+    {{message}}
+    <br />
+    <span v-bind:title="message">
+      鼠标停留几秒
+    </span>
+    <br />
+    <p v-if="seen">
+      Now you can see me!
+    </p>
+    <br />
+    <ol>
+      <li v-for="todo in todos">
+        {{todo.text}}
+      </li>
+    </ol>
+    <button v-on:click="reverseMessage">逆转消息</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+  var app = new Vue({
+    el: "#app",
+    data: {
+      message: "Hello Vue!" + new Date().toLocaleString(),
+      seen: true,
+      todos: [
+        { text: '第一个' },
+        { text: '第二个' },
+        { text: '第三个' }
+      ]
+    },
+    methods: {
+      reverseMessage: function() {
+        this.message = this.message.split('').reverse().join('')
+      }
+    }
+  })
+  </script>
+</body>
+</html>

@@ -22,20 +22,41 @@
       </li>
     </ol>
     <button v-on:click="reverseMessage">逆转消息</button>
+    <br />
+    <input type="text" v-model="message" />
+    <br />
+    <ol>
+      <todo-item v-for="item in items"
+                 v-bind:todo="item"
+                 v-bind:key="item.id">
+      </todo-item>
+    </ol>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
+  Vue.component('todo-item', {
+    props: ['todo'],
+    template: '<li>{{todo.text}}</li>'
+  })
+
+  var data = {
+    message: "Hello Vue!" + new Date().toLocaleString(),
+    seen: true,
+    todos: [
+      { text: '第一个' },
+      { text: '第二个' },
+      { text: '第三个' }
+    ],
+    items: [
+      { id: 0, text: '青椒' },
+      { id: 1, text: '茄子' },
+      { id: 2, text: '西红柿'}
+    ]
+  }
+
   var app = new Vue({
     el: "#app",
-    data: {
-      message: "Hello Vue!" + new Date().toLocaleString(),
-      seen: true,
-      todos: [
-        { text: '第一个' },
-        { text: '第二个' },
-        { text: '第三个' }
-      ]
-    },
+    data: data,
     methods: {
       reverseMessage: function() {
         this.message = this.message.split('').reverse().join('')

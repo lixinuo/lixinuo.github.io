@@ -6,62 +6,61 @@
 </head>
 <body>
   <div id="app">
-    {{message}}
-    <br />
-    <span v-bind:title="message">
-      鼠标停留几秒
-    </span>
-    <br />
-    <p v-if="seen">
-      Now you can see me!
-    </p>
-    <br />
-    <ol>
-      <li v-for="todo in todos">
-        {{todo.text}}
-      </li>
-    </ol>
-    <button v-on:click="reverseMessage">逆转消息</button>
-    <br />
-    <input type="text" v-model="message" />
-    <br />
-    <ol>
-      <todo-item v-for="item in items"
-                 v-bind:todo="item"
-                 v-bind:key="item.id">
-      </todo-item>
-    </ol>
+    <table>
+      <tr>
+        <th>index</th>
+        <th>key</th>
+        <th>value <button @click="doSort">排序</button></th>
+        <th>操作</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="text" v-model="id" placeholder="input -> id" /></td>
+        <td><input type="text" v-model="name" placeholder="input -> name" /></td>
+        <td><button @click="addObj(id, name)">add</button></td>
+      </tr>
+      <tr v-for="(item, index) in items" :key="item.id">
+        <td>{{index}}</td>
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>
+          <button @click="printObj(item)">打印对象</button>
+          <button @click="removeObj(index)">移除对象</button>
+        </td>
+      </tr>
+    </table>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
-  Vue.component('todo-item', {
-    props: ['todo'],
-    template: '<li>{{todo.text}}</li>'
-  })
-
-  var data = {
-    message: "Hello Vue!" + new Date().toLocaleString(),
-    seen: true,
-    todos: [
-      { text: '第一个' },
-      { text: '第二个' },
-      { text: '第三个' }
-    ],
+  const data = {
+    id: '',
+    name: '',
     items: [
-      { id: 0, text: '青椒' },
-      { id: 1, text: '茄子' },
-      { id: 2, text: '西红柿'}
+      {id: 1, name: 'name - 1'},
+      {id: 2, name: 'name - 3'},
+      {id: 3, name: 'name - 2'}
     ]
+  }
+
+  const methods = {
+    printObj (obj) {
+      console.log(obj.id + '-' + obj.name)
+    },
+    removeObj (item) {
+      this.items.splice(item, 1)
+    },
+    addObj (id, name) {
+      this.items.push({id: id, name: name})
+    },
+    doSort () {
+      this.items.reverse(this.items.key)
+    }
   }
 
   var app = new Vue({
     el: "#app",
     data: data,
-    methods: {
-      reverseMessage: function() {
-        this.message = this.message.split('').reverse().join('')
-      }
-    }
+    methods: methods
   })
   </script>
 </body>

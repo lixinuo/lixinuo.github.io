@@ -1,0 +1,78 @@
+<!Doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Indx</title>
+</head>
+<body>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <div id="app">
+    <table>
+      <tr>
+        <th>index</th>
+        <th>key</th>
+        <th>value <button @click="doSort">排序</button></th>
+        <th>操作</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="text" v-model="id" placeholder="input -> id" /></td>
+        <td><input type="text" v-model="name" placeholder="input -> name" /></td>
+        <td><button @click="addObj(id, name)">add</button></td>
+      </tr>
+      <tr v-for="(item, index) in items" :key="item.id">
+        <td>{{index}}</td>
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>
+          <button @click="printObj(item)">打印对象</button>
+          <button @click="removeObj(index)">移除对象</button>
+        </td>
+      </tr>
+    </table>
+
+    <form @submit.prevent>
+      <input type="email" placeholder="Email" />
+      <button type="submit"  class="btn btn-default btn-sm">submit</button>
+    </form>
+
+    <form>
+      <input type="email" placeholder="Email" />
+      <button type="submit"  class="btn btn-default btn-sm">submit</button>
+    </form>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+  const data = {
+    id: '',
+    name: '',
+    items: [
+      {id: 1, name: 'name - 1'},
+      {id: 2, name: 'name - 3'},
+      {id: 3, name: 'name - 2'}
+    ]
+  }
+
+  const methods = {
+    printObj (obj) {
+      console.log(obj.id + '-' + obj.name)
+    },
+    removeObj (item) {
+      this.items.splice(item, 1)
+    },
+    addObj (id, name) {
+      this.items.push({id: id, name: name})
+    },
+    doSort () {
+      this.items.reverse(this.items.key)
+    }
+  }
+
+  var app = new Vue({
+    el: "#app",
+    data: data,
+    methods: methods
+  })
+  </script>
+</body>
+</html>
